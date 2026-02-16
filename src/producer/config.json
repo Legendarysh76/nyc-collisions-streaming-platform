@@ -1,0 +1,8 @@
+{
+  "aws_region": "us-east-1",
+  "kinesis_stream_name": "nyc-collisions-dev-stream",
+  "s3_logs_bucket": "nyc-collisions-dev-logs",
+  "watermark_key": "watermarks/nyc_collisions_crashes.json",
+  "poll_seconds": 60,
+  "batch_limit": 1000
+}
