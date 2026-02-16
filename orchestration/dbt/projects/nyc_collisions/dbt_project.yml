@@ -1,0 +1,74 @@
+# ---------------------------------------------------
+# Project name (must match the folder name in /models)
+# Only lowercase letters and underscores allowed
+# ---------------------------------------------------
+name: 'nyc_collisions'
+version: '1.0.0'
+
+# ---------------------------------------------------
+# Profile name from ~/.dbt/profiles.yml
+# This tells dbt how to connect to Snowflake
+# ---------------------------------------------------
+profile: 'nyc_collisions'
+
+
+# ---------------------------------------------------
+# Where dbt should look for different project assets
+# You normally don’t change these
+# ---------------------------------------------------
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+
+# ---------------------------------------------------
+# Folders removed when running `dbt clean`
+# ---------------------------------------------------
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+
+# ---------------------------------------------------
+# MODEL CONFIGURATION
+# This controls how dbt builds tables/views in Snowflake
+# ---------------------------------------------------
+models:
+  nyc_collisions:
+
+    # -----------------------------------------------
+    # Push model + column descriptions into Snowflake
+    # (nice metadata for governance & documentation)
+    # -----------------------------------------------
+    +persist_docs:
+      relation: true
+      columns: true
+
+    # -----------------------------------------------
+    # SILVER LAYER
+    # Cleaned + standardized data
+    # Materialized as TABLES for performance + stability
+    #
+    # Folder: models/silver/
+    # Output: <database>.SILVER.<table>
+    # -----------------------------------------------
+    silver:
+      +schema: silver
+      +materialized: table
+      +tags: ["silver"]
+
+    # -----------------------------------------------
+    # GOLD LAYER
+    # Analytics-ready facts/dimensions
+    # Materialized as VIEWS (easy to iterate)
+    #
+    # Folder: models/gold/
+    # Output: <database>.GOLD.<view>
+    # -----------------------------------------------
+    gold:
+      +schema: gold
+      +materialized: view
+      +tags: ["gold"]

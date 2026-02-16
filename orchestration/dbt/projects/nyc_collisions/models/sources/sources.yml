@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: nyc_collisions
+    database: NYC_COLLISIONS
+    schema: BRONZE
+    tables:
+      - name: FACT_CRASHES
